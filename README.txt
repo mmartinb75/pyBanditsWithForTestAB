@@ -1,4 +1,4 @@
-        pyBandits simiulation in delayed reward enviroment
+        pyBandits simiulation in for Test AB solutions
         It has been developed extending the pyBandits python code of  Olivier Capp�, Aur�lien Garivier, Emilie Kaufmann.
      ............................................................
 
@@ -49,11 +49,9 @@
      New python classes created by  Miguel Martín, Antonio Jiménez and Alfonso Mateos:
 
 
-            dictionaries.py
-            generateBatchResults_eventMode.py
-            generateBatchResults_eventMode_with_seed.py
-            generateRandomResults_eventMode.py
-            generateRandomResults_eventMode_with_seed.py
+            
+            simulate.py
+            omparing results.ipynb
 
 
             arm/
@@ -74,120 +72,28 @@
                 policy/PossibilisticReward.py
                 policy/PossibilisticReward_Bern1.py
                 policy/PossibilisticReward_chernoff2.py
+                policy/ProbabilityMatching.py
+                policy/TestAB.py
 
 -----------------------------------------------------------
-To execute different simulations write on of these:
+If you want to simulate again any scenario  execute different simulations write on of these:
 
 For batch architecture simulations:
 
-python -u   generateBatchResults_eventMode.py scenarios method nbRep horizon traffic
+python -u   simulate.py config/scenario_x.json
 python -u   generateBatchResults_eventMode_with_seed.py scenarios method nbRep horizon traffic seed
 
 where:
-    scenarios is one of ['bernoulli_low_var_batch', 'bernoulli_high_var_batch', 'bernoulli_low_var_batch_DR', 'bernoulli_high_var_batch_DR']
-    method [0 - 9] where:
-        0 - DMED
-        1 - klUCBplus
-        2 - besa
-        3 - UCB
-        4 - klUCB
-        5 - PossibilisticReward(nbArms, trunc_value, scale=1),
-        6 - PossibilisticReward_chernoff2(nbArms, trunc_value, scale=1),
-        7 - PossibilisticReward_Bern1(nbArms, trunc_value, confidence=0.1)
-        8 - blackbox over DMED
-        9 - blackbox over klUCBplus
-        10 - blackbox over besa
-        11 - blackbox over UCB
-        12 - blackbox over klUCB
-        13 - blackbox over PossibilisticReward(nbArms, trunc_value, scale=1),
-        14 - blackbox over PossibilisticReward_chernoff2(nbArms, trunc_value, scale=1),
-        15 - blackbox over PossibilisticReward_Bern1(nbArms, trunc_value, confidence=0.1)
-    nbRep is the num of simulations to get averages
-    horizon is the horizon or num repetitions of MAB problem
-    traffic is one of ['high_traffic', 'low_traffic']
-    seed is the seed for simulated with a specific start seed.
+    config/scenario_x.json could be any of the differents json files in config, storing the parameters of each scenario and policy.
 
 
-The result is stored in three numpy file for posterior visualization and summarization:
-    regrets - a numpy array of dim(nbRep, horizon) that store the cumulative regret for each simulation in each time step
-    means - a numpy array of dim(nbRep, num of arms) that store the final sample mean of every arm in every simulation
-    nbPulls - a numpy array of dim(nbRep, num of arms) that store the number of times each arm has been pulled in each simulation
+The result is stored for each policy and scenario executed in different numpy files in the data directory where 
+    cum_regrets - the cumulative regret of the simulation
+    num_events_'stop_criteria' - the num of events of each simulation to reach the stop criteria.
+    last_rewards_'stop_criteria'- The last reward of each arm using the stop criteria defined
+    last_regrets_'stop_criteria'- The last regrets of each arm using the stop criteria defined
+    last_means_'stop_criteria'- The empirical means of each arm a the end of the simulation.
+    nbPulls_'stop_criteria' - the number of times each arm has been pulled in each simulation.
 
 
-
-
-For online architecture simulations:
-python -u   generateRandomResults_eventMode.py scenarios method nbRep horizon traffic
-python -u   generateRandomResults_eventMode_with_seed.py scenarios method nbRep horizon traffic seed
-
-
-where:
-    scenarios is one of ['bernoulli_low_var_batch', 'bernoulli_high_var_batch', 'bernoulli_low_var_batch_DR', 'bernoulli_high_var_batch_DR']
-    method [0 - 9] where:
-        0 - DMED
-        1 - klUCBplus
-        2 - besa
-        3 - UCB
-        4 - klUCB
-        5 - PossibilisticReward(nbArms, trunc_value, scale=1),
-        6 - PossibilisticReward_chernoff2(nbArms, trunc_value, scale=1),
-        7 - PossibilisticReward_Bern1(nbArms, trunc_value, confidence=0.1)
-        8 - blackbox over DMED
-        9 - blackbox over klUCBplus
-        10 - blackbox over besa
-        11 - blackbox over UCB
-        12 - blackbox over klUCB
-        13 - blackbox over PossibilisticReward(nbArms, trunc_value, scale=1),
-        14 - blackbox over PossibilisticReward_chernoff2(nbArms, trunc_value, scale=1),
-        15 - blackbox over PossibilisticReward_Bern1(nbArms, trunc_value, confidence=0.1)
-    nbRep is the num of simulations to get averages
-    horizon is the horizon or num repetitions of MAB problem
-    traffic is one of ['very_high_traffic', 'high_traffic', 'low_traffic']
-    seed is the seed for simulated with a specific start seed.
-
-
-The result is stored in three numpy file for posterior visualization and summarization:
-    regrets - a numpy array of dim(nbRep, horizon) that store the cumulative regret for each simulation in each time step
-    means - a numpy array of dim(nbRep, num of arms) that store the final sample mean of every arm in every simulation
-    nbPulls - a numpy array of dim(nbRep, num of arms) that store the number of times each arm has been pulled in each simulation
-
-
-
-------------------------------
-
-From Olivier Capp�, Aur�lien Garivier, Emilie Kaufmann. README file:
-
-
-These files have been tested under python2.6. The C extension requires a C
-compiler and installed python header files; it is not required to run the
-code: it just speeds up some critical computations (and is recommended for
-running policy/KLempUCB).
-
-
-# HOWTO:
-
-To compile the C functions (which is optional), use "cd C; make".
-
-To run the demo, simply type: "python demo.py". By editing the file, you will
-be able to run alternative demos easily, and the way to run other experiments
-should be quite straightforward.
-
-
-# NOTES:
-
-By default, most policies (policy/UCB, policy/KLempUCB, policy/klUCB when used
-with the default choice for parameter klucb) require the rewards to be bounded
-in [0,1], but other bounds can be used thanks to the parameters 'amplitude'
-and 'lower': the rewards must then be no smaller than 'lower' and no larger
-than 'lower+amplitude'.
-
-Warning: arguments 'lower' and 'amplitude' should not be modified when
-policy/klUCB is used with a distribution-specific divergence 'klucb', even for
-bounded rewards. For instance, when policy/klUCB(klucb=klucbPoisson) is used
-with 'arm/Poisson(2, 10)', the parameter 'amplitude' should not be set to 10
-in policy/klUCB(klucb=klucbPoisson) because that would cause the rewards to be
-inadequately divided by 10, see the scenario 1 in 'demo.py'.
-
-
-    --
-    $Id: README.txt,v 1.7 2012-07-05 17:03:40 cappe Exp $
+If you don't want simulated again and just analized the results just copy the simulated data from the UCB repository to the data directory and open  comparing results.ipynb notebook to see and play with  the analysis results.
