@@ -1,0 +1,8 @@
+  {
+    "objective": "conversion_rate",
+    "traffic volume": "low_traffic",
+    "policy": "TestAB",
+    "num_reps": "10",
+    "max_horizon": "5000000",
+    "scenario": "two_arms"
+  }

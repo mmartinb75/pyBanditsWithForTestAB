@@ -1,0 +1,8 @@
+  {
+    "objective": "navigation_time",
+    "traffic": "low_traffic",
+    "policy": "PR3",
+    "num_reps": "2",
+    "max_horizon": "5000000",
+    "scenario": "two_arms"
+  }

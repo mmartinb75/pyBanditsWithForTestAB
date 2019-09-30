@@ -1,0 +1,9 @@
+  {
+    "objective": "conversion_rate",
+    "traffic": "low_traffic",
+    "policy": "PR2",
+    "num_reps": "2",
+    "max_horizon": "5000000",
+    "scenario": "many_arms",
+    "seed":"10"
+  }

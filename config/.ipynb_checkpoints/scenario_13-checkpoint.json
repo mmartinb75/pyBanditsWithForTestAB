@@ -1,0 +1,9 @@
+  {
+    "objective": "conversion_rate",
+    "traffic volume": "low_traffic",
+    "policy": "ProbabilityMatching",
+    "windows": "1",
+    "num_reps": "10",
+    "max_horizon": "5000000",
+    "scenario": "many_arms"
+  }

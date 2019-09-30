@@ -1,0 +1,10 @@
+  {
+    "objective": "navigation_time",
+    "traffic": "low_traffic",
+    "policy": "ProbabilityMatching",
+    "num_reps": "2",
+    "max_horizon": "5000000",
+    "scenario": "two_arms",
+    "windows_size": "1",
+    "seed": "1"
+  }

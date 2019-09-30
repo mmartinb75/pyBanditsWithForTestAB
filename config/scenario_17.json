@@ -1,0 +1,8 @@
+{
+  "objective": "navigation_time",
+  "traffic": "low_traffic",
+  "policy": "TestAB",
+  "num_reps": "500",
+  "max_horizon": "5000000",
+  "scenario": "many_arms"
+}

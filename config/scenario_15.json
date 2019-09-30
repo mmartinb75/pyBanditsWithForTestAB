@@ -1,0 +1,9 @@
+  {
+    "objective": "conversion_rate",
+    "traffic": "low_traffic",
+    "policy": "Egreedy",
+    "windows_size": "1",
+    "num_reps": "500",
+    "max_horizon": "5000000",
+    "scenario": "many_arms"
+  }
